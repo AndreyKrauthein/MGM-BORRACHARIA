@@ -17,6 +17,8 @@ import InputMask from "react-input-mask"
 import api from "../../../service/api"
 import { useHistory } from 'react-router-dom';
 
+//commit teste
+
 
 function Copyright() {
   return (
