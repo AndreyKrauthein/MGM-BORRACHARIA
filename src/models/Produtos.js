@@ -12,7 +12,6 @@ const Produtos = connection.define("produtos", {
         allowNull: false
     },
 
-
     price: {
         type: Sequelize.STRING,
         allowNull: false
@@ -22,8 +21,6 @@ const Produtos = connection.define("produtos", {
         type: Sequelize.STRING,
         allowNull: false
     },
-
-
 })
 
 Produtos.sync({force: false}).then(() => {})

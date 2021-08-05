@@ -72,7 +72,6 @@ export default function Register() {
       alert("Erro! Preencha todos os campos!")
     }
     
-    
   }
 
   return (

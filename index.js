@@ -5,11 +5,14 @@ const cors = require("cors")
 const path = require("path")
 const connection = require("./src/database/database")
 const session = require("express-session")
+const bodyParser = require("body-parser")
 
 const UsersController = require("./src/controllers/UsersController")
 const ProdutosController = require("./src/controllers/ProdutosController")
-//cookie parser
 
+
+
+//cookie parser
 app.use(cookieParser())
 
 //cors
