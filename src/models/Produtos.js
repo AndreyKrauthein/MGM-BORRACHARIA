@@ -13,7 +13,7 @@ const Produtos = connection.define("produtos", {
     },
 
     price: {
-        type: Sequelize.STRING,
+        type: Sequelize.DOUBLE,
         allowNull: false
     },
 
