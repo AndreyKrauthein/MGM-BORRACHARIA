@@ -32,11 +32,8 @@ router.post("/api/register", [
             }).then((user) => {
                 req.session.user = {
                     id: user.id,
-                    name: user.name,
-                    cnpj: user.cnpj,
                     email: user.email,
                     password: user.password,
-                    phone: user.phone
                 }
                 return res.status(200).json({message: "created user"})         
             }).catch(error => {
@@ -48,9 +45,45 @@ router.post("/api/register", [
     })
 })
 
-router.post("/api/login", (req, res) => {
+router.post("/api/login", [
+    body("email").isEmail().withMessage("inform the email"),
+    body("password").isLength({min: 5}).withMessage("enter the password with at least 5 characters")
+], (req, res) => {
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()})
+    }
+    const {email, password} = req.body
+    User.findOne({where: {email: email}})
+    .then((user) => {
+        if(user != undefined){
+            let correct = bcrypt.compareSync(password, user.password)
+            if(correct){
+                req.session.user = {
+                    id: user.id,
+                    email: user.email,
+                    password: user.password,
+                }
+                return res.status(200).json({message: "user logged in successfully"}) 
+            } else {
+                return res.status(401).json({message: "incorrect user information"}) 
+            }
+        } else {
+            return res.status(404).json({message: "User not found"}) 
+        }
+    }).catch(err => {
+        return res.status(500).json({message: "error, try again later"})  
+    })
    
 })
 
+router.post("/api/logout", (req, res) => {
+    if(req.session.user != undefined){
+        req.session.user = undefined
+        return res.status(500).json({message: "successfully disconnected"}) 
+    }else {
+        return res.status(500).json({message: "you are already logged out"})  
+    }
+})
 
 module.exports = router
